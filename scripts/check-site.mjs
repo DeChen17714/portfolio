@@ -131,8 +131,9 @@ while ((match = imgRegex.exec(html)) !== null) {
   assert(Boolean(srcMatch), `Image #${imgCount} has src attribute`);
   if (srcMatch) {
     const src = srcMatch[1];
-    if (src.startsWith('/')) {
-      const localPath = path.join(publicDir, src);
+    const normalized = src.replace(/^\.\//, '/');
+    if (normalized.startsWith('/')) {
+      const localPath = path.join(publicDir, normalized);
       assert(fs.existsSync(localPath), `Image asset exists on disk: ${src}`);
     }
   }
@@ -144,6 +145,7 @@ while ((match = imgRegex.exec(html)) !== null) {
 assert(imgCount >= 10, `Found expected count of images (${imgCount} >= 10)`);
 assert(fs.existsSync(path.join(publicDir, 'assets', 'wordchain-trace-2x.webp')), 'Wordchain 2x derivative asset exists');
 assert(fs.existsSync(path.join(publicDir, 'assets', 'wong-de-chen-resume.pdf')), 'Resume download asset exists');
+assert(html.includes('wong-de-chen-resume.pdf'), 'Resume download link is present in HTML');
 
 // 11. External Links & New Tab Accessibility
 const linkRegex = /<a\s+([^>]+)>/g;
