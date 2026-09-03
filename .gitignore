@@ -1,0 +1,18 @@
+# Dependencies
+node_modules/
+
+# Production build
+dist/
+dist-ssr/
+
+# Local env / caches
+.env*
+.cache/
+.DS_Store
+*.local
+*.log
+
+# BMAD and harness state
+_bmad-output/
+_bmad/
+.agents/
